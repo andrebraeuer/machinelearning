@@ -8,7 +8,8 @@ However, even if your data is already in pseudo observations, there will be no c
 
 def fit_copula_gaussian(matrix_residuals_std):
     """
-    Fit a Gaussian copula to the standardized residuals from GARCH models.
+    Fit a Gaussian copula to the standardized residuals from GARCH models. 
+
     Parameters:
         - matrix_residuals_std: 2D array, standardized residuals for each asset (columns) and time points (rows).
     Returns:
@@ -16,35 +17,53 @@ def fit_copula_gaussian(matrix_residuals_std):
     """
     from copulae import GaussianCopula
 
+    u = pseudo_obs(matrix_residuals_std) # Convert standardized residuals to pseudo-observations (ranks scaled to [0,1])
     copula = GaussianCopula(dim=matrix_residuals_std.shape[1]) # Initialize Gaussian copula
-    copula.fit(matrix_residuals_std) # Fit the copula to the standardized residuals
+    copula.fit(u) # Fit the copula to the pseudo-observations
 
     return copula
 
-def fit_copula_t(matrix_residuals_std, df):
+def fit_copula_t(matrix_residuals_std):
     """
     Fit a t-copula to the standardized residuals from GARCH models. 
     Parameters:
         - matrix_residuals_std: 2D array, standardized residuals for each asset (columns) and time points (rows).
-        - df: Degrees of freedom for the t-copula.
     Returns:
         - copula: Fitted t-copula object.
     """
     from copulae import TCopula
 
-    copula = TCopula(dim=matrix_residuals_std.shape[1], df=df) # Initialize t-copula
-    copula.fit(matrix_residuals_std) # Fit the copula to the standardized residuals
+    u = pseudo_obs(matrix_residuals_std) # Convert standardized residuals to pseudo-observations (ranks scaled to [0,1])
+    copula = TCopula(dim=matrix_residuals_std.shape[1]) # Initialize t-copula
+    copula.fit(u) # Fit the copula to the pseudo-observations
 
     return copula
 
-def simulate_copula(copula, n_sim):
+def fit_copula_clayton(matrix_residuals_std):
     """
-    Simulate data from a fitted copula.
+    Fit a Clayton copula to the standardized residuals from GARCH models. 
+    Parameters:
+        - matrix_residuals_std: 2D array, standardized residuals for each asset (columns) and time points (rows).
+    Returns:
+        - copula: Fitted Clayton copula object.
+    """
+    from copulae.archimedean import ClaytonCopula
+
+    u = pseudo_obs(matrix_residuals_std) # Convert standardized residuals to pseudo-observations (ranks scaled to [0,1])
+    copula = ClaytonCopula(dim=matrix_residuals_std.shape[1]) # Initialize Clayton copula
+    copula.fit(u) # Fit the copula to the pseudo-observations
+
+    return copula
+
+
+def simulate_copula(copula, n_sim=10000):
+    """
+    Simulate data from a fitted copula. 
     Parameters:
         - copula: Fitted copula object (GaussianCopula or TCopula).
-        - n_sim: Number of simulations to generate.
+        - n_sim: Number of simulations to generate. 
     Returns:
-        - samples: Simulated data from the copula.
+        - random: Simulated data from the copula.
     """
-    samples = copula.sample(n_sim) # Simulate data from the fitted copula
-    return samples
+    u_sim = copula.random(n_sim) # Simulate data from the fitted copula
+    return u_sim
