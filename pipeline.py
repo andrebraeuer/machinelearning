@@ -8,6 +8,7 @@ Architecture
 garch.py        - Functions to fit GARCH models.
 copula.py       - Functions to fit copulas and simulate from the fitted models.
 backtesting.py  - Functions to perform backtesting of VaR forecasts.
+modelrisk.py    - Functions to calculate model risk metrics like MAD across different VaR estimates.
 pipeline.py     - Main pipeline to fit GARCH models, copula, and simulate portfolio returns for risk estimation.
 
 ------------
