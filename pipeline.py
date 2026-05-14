@@ -7,6 +7,7 @@ Architecture
 
 garch.py        - Functions to fit GARCH models.
 copula.py       - Functions to fit copulas and simulate from the fitted models.
+backtesting.py  - Functions to perform backtesting of VaR forecasts.
 pipeline.py     - Main pipeline to fit GARCH models, copula, and simulate portfolio returns for risk estimation.
 
 ------------
@@ -15,7 +16,8 @@ pipeline.py     - Main pipeline to fit GARCH models, copula, and simulate portfo
 import numpy as np
 
 from garch.py import fit_garch
-from copula.py import fit_copula_gaussian, fit_copula_t, simulate_copula
+from copula.py import fit_copula_gaussian
+from backtesting.py import get_exceedances
 
 
 # Configuration
