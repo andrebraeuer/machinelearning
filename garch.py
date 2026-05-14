@@ -31,6 +31,7 @@ def fit_garch_constmean(returns, garch_order=(1, 1), dist="t", horizon=1, scale=
 
     return {"residuals_std": residuals_std, "mu": mu1, "sigma": sigma1, "nu": nu}
 
+
 def fit_ar_garch(returns, garch_order=(1, 1), lags=1, dist="t", horizon=1, scale=100):
     """
     Fit AR(1)-GARCH(1,1) model with Student-t innovations using the `arch` packages.
@@ -60,6 +61,7 @@ def fit_ar_garch(returns, garch_order=(1, 1), lags=1, dist="t", horizon=1, scale
     mu1 = res_garch.forecast(horizon=horizon).mean.iloc[-1, 0] / scale # forecasted mean return from the ARMA model; scale back to original units
 
     return {"residuals_std": residuals_std, "mu": mu1, "sigma": sigma1, "nu": nu}
+
 
 def fit_arma_garch(returns, arma_order=(1, 0, 1), garch_order=(1, 1), dist="t", horizon=1, scale=100):
     """

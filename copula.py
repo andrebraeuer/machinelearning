@@ -23,6 +23,7 @@ def fit_copula_gaussian(matrix_residuals_std):
 
     return copula
 
+
 def fit_copula_t(matrix_residuals_std):
     """
     Fit a t-copula to the standardized residuals from GARCH models. 
@@ -38,6 +39,7 @@ def fit_copula_t(matrix_residuals_std):
     copula.fit(u) # Fit the copula to the pseudo-observations
 
     return copula
+
 
 def fit_copula_clayton(matrix_residuals_std):
     """
