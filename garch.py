@@ -48,11 +48,16 @@ def fit_ar_garch(returns, garch_order=(1, 1), lags=1, dist="t", horizon=1, scale
             - mu: Float, forecasted mean for the next period(s).
             - sigma: Float, forecasted conditional volatility for the next period(s).
             - nu: Float or None, degrees of freedom for the t-distribution (if dist is "t"), otherwise None.
+    Note:
+    AR(1) leaves a NaN in the first row (no lag to use) of the aggregated **matrix_residuals_std**.
+    Dies liegt am AR(1)-Teil. Bei **mean="AR", lags=1** verliert das Modelle die erste Beobachtung, weil für den 
+    ersten Zeitpunkt kein Lag existiert.
     """
     from arch import arch_model
     import numpy as np
 
     p, q = garch_order
+    # AR(1) leaves a NaN in the first row (no lag to use)
     res_garch = arch_model(returns*scale, mean="AR", lags=lags, vol="Garch", p=p, q=q, dist=dist).fit(disp="off", show_warning=False) # mean="Zero" because the mean process is already captured by the ARMA model
     nu = res_garch.params["nu"] if dist == "t" else None # degrees of freedom for the t-distribution
     residuals_std = res_garch.std_resid # standardized residuals (innovations)
