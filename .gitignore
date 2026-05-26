@@ -1,0 +1,18 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+*.png
+.DS_Store
+
+# Pipeline outputs (regenerate via run_expose.py)
+results/stage1_oat.csv
+results/var_vae.csv
+results/var_copula.csv
+results/mad_vae.csv
+results/mad_copula.csv
+results/mad_comparison.csv
+results/backtest_vae.csv
+results/backtest_copula.csv
